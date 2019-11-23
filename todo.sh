@@ -1,33 +1,15 @@
-#!/bin/bash -e
+#!/usr/local/bin/bash -e
 
-# Get shit done, organize later!
+# using bash 5.0.11(1) release to support readarray
 
-declare -a todo_list
+# Get shit done, organize later! 
 
-add () {
-    todo_list=( "${todo_list[@]}" "$1" )
-}
+if [[ ! -f "/tmp/todo_list.txt" ]] ; then
+    declare -a todo_list
+else
+    readarray -t todo_list < tmp/todo_list.txt
+fi
 
-add "Hello World"
-add "today we're gonna build a CLI todo app"
-add "and maybeeee learn C"
-
-todo () {
-    for i in "${todo_list[@]}"; do
-        echo $i
-    done
-}
-
-todo
-
-remove () {
-    for i in "${!todo_list[@]}"; do
-        if [[ "${todo_list[i]}" = $1 ]]; then
-            unset "todo_list[i]"
-        fi
-    done
-}
-
-remove "Hello World"
-
-todo
+for i in "${todo_list[@]}"; do
+    echo $i
+done
